@@ -20,11 +20,8 @@ import { Item } from "./Item";
 
 // Form
 let schema = yup.object().shape({
-  
   select: yup.string().required(),
-
 });
-
 
 var defaultSports = [
   {
@@ -59,7 +56,7 @@ var defaultSports = [
     id: "987784635506914",
   },
   {
-    name: "sample_movie_ticket_confirmation",
+    name: "sample_movie_ticket_confirmations",
     components: [
       {
         type: "HEADER",
@@ -129,8 +126,7 @@ export default function Model() {
   const [apiData, setData] = React.useState([]);
   const [open, setOpen] = React.useState(false);
   const [error, setError] = React.useState(false);
- 
-
+console.log('API',apiData);
   const handleChange = (event) => {
     const {
       target: { value },
@@ -164,7 +160,6 @@ export default function Model() {
       });
   }, []);
 
-
   const [sportList, setSportList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState();
 
@@ -175,7 +170,6 @@ export default function Model() {
 
   // Function to get filtered list
   function getFilteredList() {
-
     return sportList.filter(
       (item) => item.name && item.id === selectedCategory
     );
@@ -185,12 +179,11 @@ export default function Model() {
   var filteredList = useMemo(getFilteredList, [selectedCategory, sportList]);
 
   function handleCategoryChange(event) {
-    if(selectedCategory==''){
-      setError(true)
+    if (selectedCategory == "") {
+      setError(true);
     }
-  
-    setSelectedCategory(event.target.value);
 
+    setSelectedCategory(event.target.value);
   }
 
   return (
@@ -205,14 +198,12 @@ export default function Model() {
         open={open}
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
-        
-        
       >
         <Grid container>
           <Grid item md={12}>
             <DialogTitle
               id="responsive-dialog-title"
-              style={{ fontWeight: 500  }}
+              style={{ fontWeight: 500 }}
             >
               Send Template
               <span>
@@ -235,13 +226,8 @@ export default function Model() {
 
           <Grid item xs={12} md={8}>
             <DialogContent className="dialogContent">
-              <FormControl sx={{ m: 1,width:'100%', mt: 2 }}>
-                <Select
-                  id="demo-simple-select"
-                  onChange={handleCategoryChange}
-
-                >
-                
+              <FormControl sx={{ m: 1, width: "100%", mt: 2 }}>
+                <Select id="demo-simple-select" onChange={handleCategoryChange}>
                   {sportList.map((name) => (
                     <MenuItem
                       key={name.name}
@@ -253,7 +239,9 @@ export default function Model() {
                     </MenuItem>
                   ))}
                 </Select>
-                <Typography variant='body2' style={{color:'red'}}>{error? '*Please Select Template':''}</Typography>
+                <Typography variant="body2" style={{ color: "red" }}>
+                  {error ? "*Please Select Template" : ""}
+                </Typography>
               </FormControl>
 
               <Box className="sport-list">
@@ -265,67 +253,70 @@ export default function Model() {
           </Grid>
 
           {selectedCategory ? (
-      <Grid item xs={12} md={4}>
-      <Box  mx={3}>
-      <Typography variant="h5">Preview</Typography>
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          "& > :not(style)": {
-            width: 300,
-            height: '100%',
-          },
-        }}
-      >
-        <Paper elevation={2} >
-        {filteredList.map(({components})=>(
-            <>            
-            <Box m={2}>
-                {components.map((items)=>(
-                  <>
-                    <Typography variant='body2' gutterBottom>
-                        {items.text}
-                    </Typography>
-                    
-                      {items.buttons&&items.buttons.map((items)=>(
-                        <Button variant='contained' default type="submit" style={{backgroundColor:'grey'}}>
-                       {items.text}
-                      </Button>
-                   ))}
-                   </>
-                ))}
-            </Box>
-            </>
-        ))}
+            <Grid item xs={12} md={4}>
+              <Box mx={3}>
+                <Typography variant="h5">Preview</Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    "& > :not(style)": {
+                      width: 300,
+                      height: "100%",
+                    },
+                  }}
+                >
+                  <Paper elevation={2}>
+                    {filteredList.map(({ components }) => (
+                      <>
+                        <Box m={2}>
+                          {components.map((items) => (
+                            <>
+                              <Typography variant="body2" gutterBottom>
+                                {items.text}
+                              </Typography>
 
-        </Paper>
-      </Box>
-      </Box>
-    </Grid>
-  
-        ) : (
-         ''
-        )}
-    <Grid item xs={12} style={{float:'right'}}>
-      <DialogActions>
-        <Button onClick={handleClose} style={{ color: "#8922F7" }}>
-          Cancel
-        </Button>
-        <Button
-          onClick={handleClose}
-          style={{
-            backgroundColor: "#8922F7",
-            color: "white",
-            borderRadius: "20px",
-          }}
-        >
-          Send
-        </Button>
-      </DialogActions>
-      </Grid>
-      </Grid> 
-
+                              {items.buttons &&
+                                items.buttons.map((items) => (
+                                  <Button
+                                    variant="contained"
+                                    default
+                                    type="submit"
+                                    style={{ backgroundColor: "grey" }}
+                                  >
+                                    {items.text}
+                                  </Button>
+                                ))}
+                            </>
+                          ))}
+                        </Box>
+                      </>
+                    ))}
+                  </Paper>
+                </Box>
+              </Box>
+            </Grid>
+          ) : (
+            ""
+          )}
+          <Grid item xs={12} style={{ float: "right" }}>
+            <DialogActions>
+              <Button onClick={handleClose} style={{ color: "#8922F7" }}>
+                Cancel
+              </Button>
+              <Button
+                onClick={handleClose}
+                style={{
+                  backgroundColor: "#8922F7",
+                  color: "white",
+                  borderRadius: "20px",
+                }}
+              >
+                Send
+              </Button>
+            </DialogActions>
+          </Grid>
+        </Grid>
       </Dialog>
     </div>
   );
